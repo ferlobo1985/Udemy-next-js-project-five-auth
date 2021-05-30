@@ -1,10 +1,21 @@
 import { connectToDb } from 'utils/database/mongo-db'
 import { passwordHash } from 'utils/tools';
+import { authSchema }  from 'utils/validations';
 
 const handler = async(req,res) => {
   const {email,password} = req.body;
 
   /// validation
+  try{
+    await authSchema.validate({
+      email,
+      password
+    },{ abortEarly: false});
+  } catch(error){
+    res.status(500).json({message:'something wrong', error})
+    return
+  }
+
 
   const mongoClient = await connectToDb();
 

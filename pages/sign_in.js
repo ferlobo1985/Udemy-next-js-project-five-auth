@@ -14,13 +14,13 @@ const SignIn = () => {
    
     const formik = useFormik({
         initialValues:{ email:'',password:'' },
-        validationSchema: Yup.object({
-            email: Yup.string()
-            .required('Sorry the email is required')
-            .email('This is an invalid email'),
-            password: Yup.string()
-            .required('Sorry the password is required')
-        }),
+        // validationSchema: Yup.object({
+        //     email: Yup.string()
+        //     .required('Sorry the email is required')
+        //     .email('This is an invalid email'),
+        //     password: Yup.string()
+        //     .required('Sorry the password is required')
+        // }),
         onSubmit:(values)=>{
             submitForm(values)
         }
@@ -32,6 +32,8 @@ const SignIn = () => {
             axios.post('/api/auth',values)
             .then(response => {
                 console.log(response.data)
+            }).catch(error=>{
+                console.log(error.response.data)
             })
         } else {
             // sign in
