@@ -19,6 +19,14 @@ const handler = async(req,res) => {
 
   const mongoClient = await connectToDb();
 
+  /// check 
+  const checkUser = await mongoClient.db().collection('users').findOne({email});
+  if(checkUser){
+    res.status(400).json({message:'User exists'})
+    return;
+  }
+
+
   try {
     const db = mongoClient.db();
     const hashedPass = await passwordHash(password)
