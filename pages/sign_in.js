@@ -3,7 +3,9 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup';
 
 import { errorHelper } from 'utils/tools';
-import { TextField, Button } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core';
+
+import axios from 'axios';
 
 
 const SignIn = () => {
@@ -20,9 +22,23 @@ const SignIn = () => {
             .required('Sorry the password is required')
         }),
         onSubmit:(values)=>{
-            console.log(values)
+            submitForm(values)
         }
     })
+
+    const submitForm = (values) => {
+        if(formType){
+            // register
+            axios.post('/api/auth',values)
+            .then(response => {
+                console.log(response.data)
+            })
+        } else {
+            // sign in
+        }
+
+    }
+
 
     const handleFormType = () => {
         setFormType(!formType)
@@ -55,6 +71,7 @@ const SignIn = () => {
                             name="password"
                             label="Enter you password"
                             variant="outlined"
+                            type="password"
                             {...formik.getFieldProps('password')}
                             {...errorHelper(formik,'password')}
                         />
