@@ -1,3 +1,9 @@
+import { hash } from 'bcryptjs';
+
+export const passwordHash = async(password) => {
+    const hashPassword = await hash(password,10); /// kjwekjsbdfkksjbsfks
+    return hashPassword; 
+}
 
 export const errorHelper = (formik,value) => ({
     error: formik.errors[value] && formik.touched[value] ? true : false,
