@@ -6,6 +6,7 @@ import { errorHelper } from 'utils/tools';
 import { TextField, Button } from '@material-ui/core';
 
 import axios from 'axios';
+import { signIn } from 'next-auth/client';
 
 
 const SignIn = () => {
@@ -26,7 +27,7 @@ const SignIn = () => {
         }
     })
 
-    const submitForm = (values) => {
+    const submitForm = async(values) => {
         if(formType){
             // register
             axios.post('/api/auth',values)
@@ -36,7 +37,13 @@ const SignIn = () => {
                 console.log(error.response.data)
             })
         } else {
-            // sign in
+            const result = await signIn('credentials',{
+                redirect:false,
+                email: values.email,
+                password: values.password
+            });
+
+            console.log(result)
         }
 
     }
